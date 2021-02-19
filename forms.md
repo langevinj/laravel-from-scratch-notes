@@ -152,4 +152,53 @@ In this example we redirect the user back to the updated item's view.
 
 ## [Form Validation Essentials(ep25)](https://laracasts.com/series/laravel-6-from-scratch/episodes/25?autoplay=true)
 
+**Always assume user provided data is malicious.**
+
+Find out more about [Laravel validation in the docs](https://laravel.com/docs/8.x/validation).
+
+### Basic Validation
+
+On the frontend we have access to validation, such as *required*:
+```
+<input type="text" name="title" class="input" id="title" required>
+```
+
+On the server side, a simple example of validation would be:
+```
+public function store() {
+
+    request()->validate([
+            'title' => ['required', 'min:3', 'max:25'],
+            'excerpt' => 'required',
+            'body' => 'required'
+    ]);
+}
+```
+
+### Displaying Errors
+When any validation fails in Laravel, a redirect back to the page occurs and an *errors* variable is populated. 
+
+Then to display an error to the user:
+```
+@error('title')
+        <p class="help is-danger">{{ $errors->first('title') }}</p>
+@enderror
+```
+
+The *@error* wrapper prevents the *\<p>* from being shown unless there is an error.
+
+### Persisting Correct Input
+When some form fields are valid while others aren't, it's a good idea to not erase the passing fields. 
+
+To do so, use *old*:
+```
+<input type="text" name="title" class="input" id="title" value="{{ old('title') }}">
+```
+
+---
+## [Leverage Route Model Binding (ep26)](https://laracasts.com/series/laravel-6-from-scratch/episodes/26?autoplay=true)
+
+
+
+
 
