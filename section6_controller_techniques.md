@@ -92,3 +92,19 @@ $article->update(request()->validate([
 ```
 
 ----
+
+## [Consider Named Routes](https://laracasts.com/series/laravel-6-from-scratch/episodes/28?autoplay=true)
+
+What happens if a URI changes later? You'd have to rewrite an instances of it.
+
+### Naming a Route
+```
+Route::get('/articles/{article}', [ArticlesController::class, 'show'])->name('articles.show');
+```
+
+### Directing to the Route
+```
+<h3><a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a></h3>
+```
+You can also explicitly pass *$article->id* as the second parameter, which indicates the wildcard. But Laravel will automatically determine this.
+
