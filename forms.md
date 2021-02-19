@@ -198,42 +198,6 @@ To do so, use *old*:
 ```
 
 ---
-## [Leverage Route Model Binding (ep26)](https://laracasts.com/series/laravel-6-from-scratch/episodes/26?autoplay=true)
-
-**findOrFail()**
-<br>
-If the item is not found, return a 404.
-
-### Finding an Item 
-Instead of manually finding an item associated with an identifier, we can leverage Laravel's binding:
-
-```
-public function show (Article $article)
-{
-    return view('articles.show', ['article' => $article]);
-}
-```
-Your wildcard name is important, it must match your variable name. 
-
-### Finding an Item Not Using a Primary Key
-To find an item using a characteristic other than the id, you must overwrite the *getRouteKeyName()* method in the associated model.
-
-```
-class Article extends Model
-{
-    public function getRouteKeyName()
-    {
-      return 'slug';  // Article::where('slug', $article)->first();
-    } 
-
-}
-```
----
-
-## [Reduce Duplication (ep27)](https://laracasts.com/series/laravel-6-from-scratch/episodes/27?autoplay=true)
-
-
-
 
 
 
