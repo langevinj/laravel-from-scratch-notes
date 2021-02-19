@@ -101,3 +101,55 @@ It's important to give a proper name to form input elements, as the values of th
 
 ## [Forms That Submit PUT Requests(ep24)](https://laracasts.com/series/laravel-6-from-scratch/episodes/24?autoplay=true)
 
+### The Edit View
+
+Similarly to the *show* controller, we need to find the item by ID and pass it to the view:
+
+```
+public function edit ($id)
+{   
+            $article = Article::find($id);
+
+            return view('articles.edit', compact('article'));
+}
+```
+
+We then set form values, or textareas with the corresponding item's instances.
+
+Browsers currently understand POST and GET requests. To specify that we want to send a PUT request, use *@method*.
+
+```
+<form method="POST" action="/articles/{{$article->id}}">
+        @csrf
+        @method('PUT')
+```
+
+### The Update Route
+
+#### ex. the route
+```
+Route::put('/articles/{article}', [ArticlesController::class, 'update']);
+```
+
+#### ex. the controller
+```
+public function update($id)
+{
+            $article = Article::find($id);
+        
+            $article->title = request('title');
+            $article->excerpt = request('excerpt');
+            $article->body = request('body');
+
+            $article->save();
+
+            return redirect('/articles/' . $article->id);
+}
+```
+In this example we redirect the user back to the updated item's view.
+
+---
+
+## [Form Validation Essentials(ep25)](https://laracasts.com/series/laravel-6-from-scratch/episodes/25?autoplay=true)
+
+
