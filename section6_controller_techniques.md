@@ -108,3 +108,21 @@ Route::get('/articles/{article}', [ArticlesController::class, 'show'])->name('ar
 ```
 You can also explicitly pass *$article->id* as the second parameter, which indicates the wildcard. But Laravel will automatically determine this.
 
+### Adding a *path()* method
+An optional way to clean up the process of redirecting to a certain resource is to add a *path()* method to the resources associated model.
+
+```
+class Article extends Model
+{
+    public function path()
+        {
+            return route('articles.show', $this);
+        }
+}
+```
+
+For example, this allows for some minor refactoring when directing towards a specific item:
+
+```
+return redirect($article->path());
+```
