@@ -136,4 +136,31 @@ public function up()
 }
 ```
 
-LEFT OFF AT 09:45
+### Accessing a Relationship
+Even though our *articles()* relationship is method of our User model, to access the relationships for a user, *articles* must be called as a property:
+
+#### ex.
+```
+$user = User::find(USER_ID_NUMBER);
+$user->articles;
+// a list of the user's articles
+```
+
+### Passing the Foreign Key
+
+When defining a relationship method, if the method is not named the same as the property being accessed, for example a *user()* method for the Article class referencing *user_id* you must specify the foregin key. For example:
+
+```
+class Article extends Model
+{
+    public function author()
+        {
+            return $this->belongsTo(User::class, 'user_id');
+        }
+}
+```
+If we wanted to rename the relationship method to something more meaningful, it's important to specify the foreign key.
+
+
+
+
