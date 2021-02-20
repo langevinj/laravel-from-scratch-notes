@@ -161,6 +161,49 @@ class Article extends Model
 ```
 If we wanted to rename the relationship method to something more meaningful, it's important to specify the foreign key.
 
+---
+
+## [Many to Many Relationships With Linking Tables(ep31)](https://laracasts.com/series/laravel-6-from-scratch/episodes/31?autoplay=true)
+
+For an example of many to many, let's look at articles. Articles could have many tags to reference their content. Each tag could also belong to many articles.
+
+To call on this many to many relationship we must use *belongsToMany*:
+
+```
+class Article extends Model
+{
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+}
+```
+
+### Creating a Linking Table
+
+The convention for connecting via a many to many relationship is to create a separate table. The standard naming convention is alphabetal, singular, and space by an underscore. For example:
+
+*article_tag*
+
+After creation of the Tag model and table, we need to declare a linking table. In this relationship table declaration, you must declare that the ids must be unique. Then set up the foreign key relationships.
+
+#### ex. *inside the up() method of the Tag table*
+```
+Schema::create('article_tag', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('article_id');
+            $table->unsignedBigInteger('tag_id');
+            $table->timestamps();
+
+            $table->unique(['article_id', 'tag_id']);
+
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+});
+```
+
+
+
 
 
 
