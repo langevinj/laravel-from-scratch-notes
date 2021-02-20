@@ -202,6 +202,56 @@ Schema::create('article_tag', function (Blueprint $table) {
 });
 ```
 
+---
+
+## [Display All Tags Under Each Article (ep32)](https://laracasts.com/series/laravel-6-from-scratch/episodes/32?autoplay=true)
+
+### Adding the Article Tags
+To add article tags underneath an article, we can simply iterate through each tag. This is one example of a way to link to the right tag, using the query string:
+
+```
+@foreach ($article->tags as $tag)
+					<a href="{{ route('articles.index', ['tag'=>$tag->name]) }}">{{ $tag->name }}</a>
+@endforeach
+```
+
+In this case we use the second parameter to specify our query string variables. We call the route with *route('articles.index')* because we previously named the routes in our *web.php* file.
+
+### Determing Which Articles to Display
+
+One way of filtering the articles is with a simple *if* statement in the *index()* controller. We check to see if a *tag* parameter was passed, then return only articles with that tag:
+
+#### ex. *in the Articles controller*
+```
+public function index ()
+{
+        if(request('tag')) {
+            $articles = Tag::where('name', request('tag')->firstOrFail()->articles;
+        } else {
+            $articles = Article::latest()->paginate(10);
+        }
+
+        return view('articles.index', ['articles' => $articles]);
+}
+```
+
+### Displaying Associated Articles
+Now that we are able to filter the articles, it is important to update our view, in the case that no articles with the tag are present.
+
+To do this use a *@forelse* in place of *foreach*, and specify an empty state with *@empty*.
+
+```
+@forelse ($articles as $article)
+	<li class="first">
+		<h3><a href="{{ $article->path() }}">{ $article->title }}</a></h3>
+		<p>{{ $article->excerpt }}</p>
+	</li>
+@empty
+	<p>No relevant articles yet.</p>
+@endforelse
+```
+
+
 
 
 
