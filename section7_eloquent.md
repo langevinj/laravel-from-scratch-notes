@@ -251,8 +251,77 @@ To do this use a *@forelse* in place of *foreach*, and specify an empty state wi
 @endforelse
 ```
 
+---
 
+## [Attach and Validate Many-to-Many Inserts (ep33)](https://laracasts.com/series/laravel-6-from-scratch/episodes/33?autoplay=true)
 
+### Passing the Tags to the Create View
+Before we can give a user options, those options must be passed to a *create* view. One way to do this is simple to use the *all()* method:
+
+```
+public function create ()
+{   
+    return view('articles.create', [
+        'tags' => Tag::all()
+    ]);
+}
+```
+
+### Displaying the Options to a User
+A *select multiple* element is useful for displaying options to a user in this case, because a user should be able to select multiple options. We want the ability to send an array of the selection, so it is important to add an empty array in the *name* field of the select.
+
+#### ex. *in our /articles/create.blade.php file*
+```
+<div class="field">
+    <label for="tags" class="label">Tags</label>
+                
+    <div class="control">
+        <select name="tags[]" multiple>
+            @foreach ($tags as $tag)
+                <option value="{{ $tag->id }}">{ $tag->name }}</option>
+            @endforeach
+        </select>
+
+        @error('tags')
+            <p class="help is-danger">{{$message }}</p>
+        @enderror
+    </div>
+</div>
+```
+
+### Added validation
+It's important to catch and validation errors before they reach the SQL level. So added validation for the new *tags* field with an *exists* check.
+
+#### ex. *added to the validate() method*
+```
+'tags' => 'exists:tags,id'
+```
+
+### Changing the Store Method
+For this example, Jeffrey hard codes the user's id, pending the teaching of validation.
+
+Use the *attach* or *detach* methods are away to attach or detach records in a linking table.
+
+Once you are to the point where validation doesn't map right to the table, you should call validation separately. 
+
+Save some typing by using an associative array based on the keys in the request.
+
+```
+public function store ()
+{   
+    $this->validateArticle();
+
+    $article = new Article(request(['title', 'excerpt', 'body']));
+    $article->user_id = 2;
+    $article->save();
+
+    $article->tags()->attach(request('tags'));
+
+    return redirect('/articles');
+}
+```
+
+---
 
 
 
