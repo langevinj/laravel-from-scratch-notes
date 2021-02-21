@@ -82,3 +82,17 @@ This can be aided by a hidden AJAX request in the backend. Laravel automatically
 As mentioned in Section 5 on forms, the *@csrf* directive adds a hidden input to, for example, the logout form. This adds another level of verification.
 
 When you are creating a form that submits a POST, PUT, or DELETE request, make it a habit to add *@csrf*.
+
+---
+## [Service Container Fundamentals (ep38)](https://laracasts.com/series/laravel-6-from-scratch/episodes/38?autoplay=true)
+
+A container for services. A place to store and retrieve services. 
+
+This lesson rapidly went through creating your own container, without much stopping for explaination. So I would recommend checking out the [Laravel docs on this subject](https://laravel.com/docs/8.x/container)
+
+
+### An exmaplaination from the docs *(paraphrased from the docs directly)*
+The service container is a tool for managing class dependencies, and injecting dependencies into a class via the constructor or "setter" methods.
+
+
+
