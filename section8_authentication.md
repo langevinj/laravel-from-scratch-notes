@@ -79,3 +79,20 @@ Sometimes different views are meant to be displayed based on a user being logged
     Please sign in
 @endguest
 ```
+---
+
+## [The Password Reset Flow (ep35)](https://laracasts.com/series/laravel-6-from-scratch/episodes/35?autoplay=true)
+
+### What Happens When a User Clicks "Reset Password"?
+1. Click "Forgot Password"
+2. Fill out a form with their email address.
+3. Prepare a unique token and associate it with the user's account.
+4. Send an email with a unique link back to our site that confirms email ownership.
+5. Link back to website, confirm the token, and set a new password.
+
+### Setting Up Email
+All the email variables are located in the *.env* file with the *MAIL_* prefix. More of the email configuration can be found in */config/mail.php*.
+
+For this example, we are setting *MAIL_MAILER* to *log*, so we can view the email that would be sent in */storage/logs*.
+
+Because Laravel handles this path we don't have to set everything up ourselves.
