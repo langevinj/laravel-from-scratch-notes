@@ -232,5 +232,6 @@ The *boot()* method is triggered after every single service provider in the fram
 ### Creating a Facade
 When creating a facade, you must overide the getFacadeAccessor method, by creating one inside the facade to return the key. Then you must bind that key the App service provider. Then you we be able to use the facade to proxy an underlying class.
 
+---
 
 
