@@ -68,4 +68,39 @@ Go to your inbox, and choose "Laravel" from the integration drop down.
 
 Adjust your .env settings accordingly and you are good to go!
 
+---
 
+# [Send HTML Emails Using Mailable Classes (ep44)](https://laracasts.com/series/laravel-6-from-scratch/episodes/44?autoplay=true)
+
+For anything more than simple text emails, we will want something better then the *Mail::raw* approach.
+
+PHP artisan provides a make function for a mail class:
+```
+php artisan make:mail NAME
+```
+
+Now there is a new Mail folder in the app directory, this is where to build the message.
+
+## Changing How an Email is Sent
+
+Follow the steps for creating a mail view, then we setup the new way to send an email in *ContactController.php*:
+
+```
+Mail::to(request('email))
+    ->send(new ContactMe());
+```
+
+Make sure to *use App\Mail\ContactMe*.
+
+## Specific Data in the View
+Any public value in the Mailable class will instantly be available in the view.
+
+Now we can initialize the value in the Mailable class constructor, and send it from the Controller.
+```
+Mail::to(request('email'))
+    ->send(new ContactMe('shirts'));
+```
+
+### [Here is a list of Mailable methods](https://laravel.com/api/5.5/Illuminate/Mail/Mailable.html)
+
+---
