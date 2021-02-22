@@ -213,3 +213,24 @@ Although this is convenient, keep in mind that defining all the classes dependen
 
 All depends on scope of your project and what conventions you are following.
 
+----
+## [Service Providers are the Missing Piece (ep41)](https://laracasts.com/series/laravel-6-from-scratch/episodes/41?autoplay=true)
+
+Each Laravel component is brought in under the */vendor/laravel* directory and each component has a service provider.
+
+These service providers provide a service to the framework.
+May need to:
+- register keys in the service container
+- trigger some functionality after the framework has been booted
+
+### Inside a Component Service Provider
+
+The *register()* method is for registering keys into the service container. The key will now resolve to a new instance of the class.
+
+The *boot()* method is triggered after every single service provider in the framework has been registered.
+
+### Creating a Facade
+When creating a facade, you must overide the getFacadeAccessor method, by creating one inside the facade to return the key. Then you must bind that key the App service provider. Then you we be able to use the facade to proxy an underlying class.
+
+
+
