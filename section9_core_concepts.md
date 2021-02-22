@@ -137,6 +137,14 @@ public function register()
 ```
 Telling Laravel how to create the instance when we want to inject the class. This mean we want to return a new instance of the *UserStatsCsvExporter* and provide dependencies of the exporter.
 
+ We can also directly ask the container for an instance.
+
+ >'The service container helps us manage our dependencies by:
+ >1. providing auto-resolving
+ >2. giving us a central place to store instantiation information
+ >3. letting us bind to interfaces
+ >4. giving us the opportunity to share instances'
+
 ---
 ## [Automatically Resolve Dependencies (ep39)](https://laracasts.com/series/laravel-6-from-scratch/episodes/39?autoplay=true)
 
@@ -165,3 +173,6 @@ Route::get('/', function() {
 The bound method will resolve to whatever is bound to that key. 
 
 ***** **The rest of this lesson went right over my head, at this time I don't feel adequately informed enough to take notes elaborating** *****
+
+---
+
