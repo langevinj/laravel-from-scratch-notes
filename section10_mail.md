@@ -104,3 +104,61 @@ Mail::to(request('email'))
 ### [Here is a list of Mailable methods](https://laravel.com/api/5.5/Illuminate/Mail/Mailable.html)
 
 ---
+# [Send Email Using Markdown Templates (ep45)](https://laracasts.com/series/laravel-6-from-scratch/episodes/45?autoplay=true)
+
+## Setup Using Markdown
+
+In the mailable class, update the *build()* method to use markdown.
+
+```
+public function build()
+{
+    return $this->markdown('emails.contact-me')
+        ->subject('More information about ' . $this->topic);
+}
+```
+
+Then wrap the text you wish to send in the view file with *@component*:
+
+```
+@component('mail::message')
+Lorem ipsum .....
+@endcomponent
+```
+
+## Variations
+Do not indent anything in the markdown component, it will mess up the parser.
+
+### Call to Action
+
+#### ex. A link button:
+```
+@component('mail::button', ['url' => 'https://laracasts.com'])
+    Visit Laracasts
+@endcomponent
+```
+
+Think of calling *@component* as calling a view. The two colons signal that we are loading a view in the vendor directory.
+
+### Setting the Email Heading Name
+To set a new heading name go to the .env file and change the APP_NAME.
+
+### Create a New Markdown Mailable
+To create both the markdown template as well as the mailable run the following:
+
+```
+php artisan make:mail NAME --markdown=emails.name
+```
+
+## Bringing in Your Own Assets
+You can usually look up how to include the assets, whether on github, or in the case of mail in [Laravel's docs](https://laravel.com/docs/8.x/mail#customizing-the-components).
+
+```
+php artisan vendor:publish --tag=laravel-mail
+```
+
+Now whenever you send an email it will read from your local template. You can then tweak the structures located in */resources/views/vendor/html*. 
+
+You can also tweak or create a new css theme as desired. If you choose to create your own, switch the default theme in the *config* directory to the name of your theme.
+
+---
