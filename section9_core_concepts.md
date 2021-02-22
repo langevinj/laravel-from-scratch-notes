@@ -176,3 +176,40 @@ The bound method will resolve to whatever is bound to that key.
 
 ---
 
+## [Laravel Facades Demystified (ep40)](https://laracasts.com/series/laravel-6-from-scratch/episodes/40?autoplay=true)
+
+Facades provide: a static interface to underlying components in the framework. They are for conveinience: easier than manually building up objects + dependency chains.
+
+```
+class PagesController extends Controller
+{
+    public function home()
+    {
+        return View::make('welcome');
+    }
+}
+```
+
+So by calling something like this in a controller file, the view factory is being referenced and a *make* method is being called. But, you didn't have to instantiate the factory OR pull in all the dependencies that the object requires.
+
+Facades in Laravel are more testable. 
+
+Each facade has a method that will return a key that represents a binding in the service container.
+
+When you say something like:
+
+```
+Request::input('foo')
+```
+
+"This is a static interface that proxies to an underlying class."
+
+If you need to debug a call, you can find the underlying class in the facade file, and look at it directly.
+
+When using a facade you don't have to inject any objects inside a public function constructor.
+
+### Warning
+Although this is convenient, keep in mind that defining all the classes dependencies in the constructor, it is more clear exactly what is needed for the class to function.
+
+All depends on scope of your project and what conventions you are following.
+
