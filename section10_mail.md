@@ -60,5 +60,12 @@ Then display the message on the frontend:
 ```
 
 ---
-# [Simulate anInbox using Mailtrap (ep43)](https://laracasts.com/series/laravel-6-from-scratch/episodes/43?autoplay=true)
+# [Simulate an Inbox Using Mailtrap (ep43)](https://laracasts.com/series/laravel-6-from-scratch/episodes/43?autoplay=true)
+
+[Sign up for a free Mailtrap Account](https://mailtrap.io/)
+
+Go to your inbox, and choose "Laravel" from the integration drop down.
+
+Adjust your .env settings accordingly and you are good to go!
+
 
