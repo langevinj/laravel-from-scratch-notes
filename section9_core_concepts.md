@@ -94,5 +94,74 @@ This lesson rapidly went through creating your own container, without much stopp
 ### An exmaplaination from the docs *(paraphrased from the docs directly)*
 The service container is a tool for managing class dependencies, and injecting dependencies into a class via the constructor or "setter" methods.
 
+## [Level 1 - The Best Introduction To the Service Container](https://laravelcoreadventures.com/raiders-of-the-lost-service-container/level/1)
 
+I took a quick sidebar to check out this video for further explaination for the Laravel service container.
 
+Laravel can tell when we need to create an instance of a class and inject it into another method.
+
+#### ex. *taken from this vide*
+```
+use App\Exporter\UserStatsCsvExporter;
+
+class ExportController extends Controller
+{
+
+    public function handle(UserStatsCsvExporter $userStatsExporter)
+    {
+        return $userStatsExport->export(12);
+    }
+}
+```
+So in this example, Laravel will know to create a new instance of the *UserStatsCsvExporter* class.
+
+>"**Providers** are the main place to configure your application. You can use them to register services while Laravel boots up."
+
+### Adding the Provider
+You need to register your provider in the */config/app.php* file.
+
+#### ex. *inside the app.php 'providers' array*
+```
+UserStatsExporterProvider::class
+```
+
+Then, inside the provider, in the *register* method, we bind something to the container.
+
+```
+public function register()
+{
+    $this->app->bind(UserStatsCsvExporter::class, function(){
+        return new UserStatsCsvExporter(new Translator(config('app.locale)));
+    });
+}
+```
+Telling Laravel how to create the instance when we want to inject the class. This mean we want to return a new instance of the *UserStatsCsvExporter* and provide dependencies of the exporter.
+
+---
+## [Automatically Resolve Dependencies (ep39)](https://laracasts.com/series/laravel-6-from-scratch/episodes/39?autoplay=true)
+
+### Laravel's Container
+Laravel's container is the application itself and can refereneced using the *app()* helper function.
+
+#### ex. *in the web.php file*
+```
+app()->bind('example', function() {
+    return new \App\Example();
+});
+```
+
+So we now have a new key bound in the service container.
+
+### Fetching a Service
+
+One way is using the *resolve()* helper. 
+
+```
+Route::get('/', function() {
+    resolve('example');
+});
+```
+
+The bound method will resolve to whatever is bound to that key. 
+
+***** **The rest of this lesson went right over my head, at this time I don't feel adequately informed enough to take notes elaborating** *****
