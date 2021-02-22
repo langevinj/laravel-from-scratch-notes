@@ -162,3 +162,27 @@ Now whenever you send an email it will read from your local template. You can th
 You can also tweak or create a new css theme as desired. If you choose to create your own, switch the default theme in the *config* directory to the name of your theme.
 
 ---
+# [Notifications Versus Mailables (ep46)](https://laracasts.com/series/laravel-6-from-scratch/episodes/46?autoplay=true)
+
+Another way to notify users: the notification facade.
+
+## Making a Notification
+```
+php artisan make:notification PaymentReceived
+```
+
+General rule: you are notifying the user for some action that has taken place on the website.
+
+You can specify the notification type in the PaymentReceived file.
+
+#### ex. *sending a notification*
+```
+public function store()
+{
+    request()->user()->notify(new PaymentReceived());
+}
+```
+
+Out of the box Laravel includes a "notifiable" field for users.
+
+---
