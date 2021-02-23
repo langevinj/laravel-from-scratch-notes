@@ -108,4 +108,15 @@ For some authorizations, like admin checks, you can move them to the AuthService
 A simple discussion of ability names, watching the video is the best course.
 
 ---
+## [Middleware-Based Authorization (ep53)](https://laracasts.com/series/laravel-6-from-scratch/episodes/53?autoplay=true)
+
+We can authorize on the routing level as a middleware.
+
+```
+Route::get('/conversations/{conversation}', [ConversationsController::class, 'show'])->middleware('can:view, conversation');
+```
+
+Leverages route model binding to pass the conversation.
+
+---
 
