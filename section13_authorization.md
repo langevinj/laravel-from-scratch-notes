@@ -119,4 +119,108 @@ Route::get('/conversations/{conversation}', [ConversationsController::class, 'sh
 Leverages route model binding to pass the conversation.
 
 ---
+## [Roles and Abilites (ep54)](https://laracasts.com/series/laravel-6-from-scratch/episodes/54?autoplay=true)
 
+### Background
+
+Think of the setup of users for a website. A moderator can edit, a manager can edit AND make design changes, and an owner can do anything, including actions noone else can. In this case, users has multiple roles, which have different abilities.
+
+### Setup
+Begin by creating a roles migration.
+
+#### ex. *taken from this episode*
+```
+public function up()
+{
+    Schema::create('roles', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->string('label')->nullable();
+        $table->timestamps();
+    });
+
+    //copy of the above schema, but for 'abilities'
+
+    Schema::create('ability_role', function (Blueprint $table) {
+        $table->primary(['role_id', 'ability_id']);
+        $table->unsignedBigInteger('role_id');
+        $table->unsignedBigInteger('ability_id');
+        $table->timestamps();
+
+        $table->foreign('role_id')
+            ->references('id')
+            ->on('roles')
+            ->onDelete('cascade');
+
+        $table->foreign('ability_id')
+            ->references('id')
+            ->on('abilities')
+            ->onDelete('cascade');
+    });
+
+    //copy of above pivot table, but for 'role_user'
+}
+```
+
+### The Role and Ability Models
+#### ex. *inside the Role model*
+```
+public function abilities()
+{
+    return $this->belongsToMany(Ability::class);
+}
+```
+Then do the inverse in the Ability model.
+
+### The User Model
+Make sure there is a way to get the roles:
+
+```
+public function roles()
+{
+    return $this->belongsToMany(Role::class)->withTimestamps();
+}
+```
+Because there are timestamps on this table, you must specify using the *withTimestamps()* method.
+
+### Assigning a role to a User
+
+#### ex. *inside the User model*
+```
+public function assignRole($role)
+{
+    $this->roles()->save($role);
+}
+```
+
+### Displaying Based on Permission
+If we want to continue using the *@can* component, we have to hook these abilities into Laravel's Gate functionality.
+
+In the AuthServiceProvider we add a Gate to check if the user has a particular ability. The ability name will be passed by the form.
+
+#### ex. *in the AuthServiceProvider*
+```
+public function boot()
+{
+    $this->registerPolicies();
+
+    Gate::before(function ($user, $ability) {
+        return $user->abilities()->contains($ability);
+    });
+}
+```
+
+### Changing the *assignRole* Method
+Instead of checking if a role is already assigned to a user, then not doing anything, we can call *sync*, which will replace all entries in the pivot tables with a particular collection. In this case we need to specify *false*, otherwise anything not associated with the collection would be dropped.
+
+#### ex. *inside the User model*
+```
+public function assignRole($role)
+{
+    $this->roles()->sync($role, false);
+}
+```
+This will add any new records if necessary, but it won't drop anything.
+
+
+---
