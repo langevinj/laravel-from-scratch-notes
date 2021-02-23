@@ -84,3 +84,22 @@ Because this specific policy is created, we can completely remove this from the 
 ```
 $this->authorize('update', $reply->conversation);
 ```
+
+---
+## [Authorization Filters (ep51)](https://laracasts.com/series/laravel-6-from-scratch/episodes/51?autoplay=true)
+
+You can add a *before()* method to a policy that will fire before the actual authorization is checked.
+
+#### ex.
+```
+public function before(User $user){
+    if($user->admin === true){
+        return true;
+    }
+}
+```
+
+Do not just return the condition, it will interfere with the flow.
+For some authorizations, like admin checks, you can move them to the AuthServiceProdiver if they will be called regularly. 
+
+---
