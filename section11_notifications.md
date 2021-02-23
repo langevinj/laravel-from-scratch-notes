@@ -81,3 +81,34 @@ public function show()
 }
 ```
 This code snippet uses *higher order tap*. We can call what will return us our value, but then call a method on it as well.
+
+---
+## [Send SMS Notifications in 5 Minutes (ep48)](https://laracasts.com/series/laravel-6-from-scratch/episodes/48?autoplay=true)
+
+### Setup
+
+For this exercise you must create an account on [Vonage (formerly Nexmo)](https://www.vonage.com/).
+
+Add a *NEXMO_KEY* and *NEXMO_SECRET* entry to your .env file.
+
+Add a nexmo configuration to the *config/services.php* file.
+
+### Sending the SMS
+Inside the notifications directory:
+
+```
+public function toNexmo($notifiable)
+{
+    return (new NexmoMessage)
+                ->content('Your SMS message content');
+}
+```
+
+On the user model, add the *routeNotificationForNexmo* method:
+
+```
+public function routeNotificationForNexmo($notification)
+{
+        return $this->phone_number;
+}
+```
