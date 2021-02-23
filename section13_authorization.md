@@ -103,3 +103,9 @@ Do not just return the condition, it will interfere with the flow.
 For some authorizations, like admin checks, you can move them to the AuthServiceProdiver if they will be called regularly. 
 
 ---
+## [Guessing the Ability Name (ep52)](https://laracasts.com/series/laravel-6-from-scratch/episodes/52?autoplay=true)
+
+A simple discussion of ability names, watching the video is the best course.
+
+---
+
